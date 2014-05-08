@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--Edit the title of the page-->
+    <title>#BagitNYC Map</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+<!--
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+-->
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+    <!--Switch between the different themes changing the stylesheet below - light-theme.css |dark-theme.css -->
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&v=3.8"></script>
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+       <script src="instagram-scroll/instagram-scroll.js"></script>
+<!--    <link rel="stylesheet" href="css/light-theme.css">-->
+    <link rel="stylesheet" href="css/makeitresponsive.css">
+    <link rel="stylesheet" href="css/light-theme.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Amatic+SC">
+  
+  </head>
+  <body>
+  <div class="map" id="map">
+        <script>
+      function initialize() {
+        cartodb.createVis('map', 'http://jossphilippe.cartodb.com/api/v2/viz/4dedce04-91da-11e3-ada5-0e49973114de/viz.json', {
+            shareable: true,
+            title: false,
+            description: false,
+            search: true,
+            tiles_loader: true,
+            center_lat: 40.711346,
+            center_lon: -73.947826,
+            zoom: 11
+        })
+      }
+
+      window.onload = initialize;
+    </script>
+
+        </div>
+    <div class="sidepanel">
+      <div class="wrapper">
+        <div class="context subheader">
+          <h1>#BagitNYC</h1>
+        </div>
+        <p>Instagrams of plastic bag litter across NYC Council Districts</p>
+          
+            <div class="context footer">
+                <H2>TEST INSTASCROLL</H2>
+             <script>
+                    $(function(){
+                        return LoadResults();
+                                })
+             </script>
+
+            </div>
+      </div>
+    </div>
+  </body>
+</html>
