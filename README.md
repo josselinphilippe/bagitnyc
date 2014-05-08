@@ -1,4 +1,5 @@
-bagitnyc
+#bagitnyc photo/map campaign to support plastic bag legislation
+
 ========
 
 Instagram and CartoDB photo/map campaign to support plastic bag legislation
