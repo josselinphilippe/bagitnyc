@@ -1,0 +1,57 @@
+<style>
+
+
+div.cartodb-popup {
+position: relative;
+width: 300px;
+height: 400px;
+margin: 0;
+background: url('../img/light.png') no-repeat -226px 0;
+}
+    
+div.cartodb-popup div.cartodb-popup-content-wrapper {
+width: 300px;
+padding: 5px;
+background: url("http://vizzuality.github.io/icij/img/map/infowindow-content.png") repeat-y;
+}
+
+div.cartodb-popup div.cartodb-popup-content {
+display: block;
+width: 300px;
+max-width: 612px;
+min-height: 5px;
+height: auto;
+max-height: 400px;
+margin: 0;
+padding: 0;
+overflow-y: auto;
+overflow-x: hidden!important;
+outline: none;
+ text-align: left;
+}
+
+
+
+div.cartodb-popup div.cartodb-popup-content-wrapper{
+  width:300px; max-width:300px; padding:5px; background:url("http://vizzuality.github.io/icij/img/map/infowindow-content.png") repeat-y} 
+
+div.cartodb-popup div.cartodb-popup-tip-container{
+ width: 300px; background:url("http://vizzuality.github.io/icij/img/map/infowindow-bottom.png") no-repeat}
+    
+</style>
+
+<div class="cartodb-popup">
+  <a href="#close" class="cartodb-popup-close-button close">x</a>
+  <div class="cartodb-popup-content-wrapper">
+    <div class="cartodb-popup-content">
+
+<iframe src="{{url}}embed/" width="300" height="400" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+ </div>
+
+    </div>
+  </div>
+  <div class="cartodb-popup-tip-container"></div>
+</div>
+
+                                          
+                           
