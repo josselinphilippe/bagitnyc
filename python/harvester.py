@@ -57,14 +57,13 @@ if __name__ == '__main__':
     # INSERT statement for that data, then insert it into CartoDB.
     #
     for media in Instagram_API():
-        print media
         try:
             # 4/8, EB: Added this check to ONLY look at pieces of media with a
             # location
             if media.location:
         
 #                 4/8, EB: Changed this line to print lat and lng out
-#                print media.images['standard_resolution'].url, media.user.username, media.id, media.location.point.latitude, media.location.point.longitude, media.link
+                print media.images['standard_resolution'].url, media.user.username, media.id, media.location.point.latitude, media.location.point.longitude, media.link
 
 
 #                 4/8, EB: Added this line to print SQL statements for each
@@ -86,22 +85,11 @@ if __name__ == '__main__':
                     media.id,
                     media.link
 )
-
-#                print(sql_query)
-#
-# This is where you call insert_into_cartodb()
+                print(sql_query)
+                # This is where you call insert_into_cartodb()
                 insert_into_cartodb(sql_query)
+                    
 
-
+                # This is where you could call insert_into_cartodb()
         except exceptions.AttributeError:
             pass
-
-#This is the necessary table cleanup statement to be included for a CRON job
-#def delete_duplicates()
-#    delete = """DELETE FROM  % var_table_name WHERE cartodb_id NOT IN 
-#    (
-#      SELECT MAX(cartodb_id) FROM var_table_name
-#      GROUP BY media_id
-#      )"""
-#    return sql_query
-       
