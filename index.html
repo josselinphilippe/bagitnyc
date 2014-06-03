@@ -23,6 +23,8 @@
       <script type="text/javascript" src="instafeed.js/instafeed.min.js"></script>
   </head>
   <body>
+      
+<div id="container" class="container">
 <div class="map" id="map">
         <script>
       function initialize() {
@@ -34,10 +36,33 @@
             tiles_loader: true,
             center_lat: 40.711346,
             center_lon: -73.947826,
-            zoom: 11
+            zoom: 12
         })
+        
+       .done(function(vis, layers) {
+        
+        layers[1].getSubLayer(1).set({
+           interactivity: 'url',
+           infowindow: false,
+        })
+          layers[1].getSubLayer(0).set({
+           interactivity: 'image',
+           infowindow: false,
+        })
+
+        layers[1].on('featureOver', function(e, latlng, pos, data, layerNumber) {
+      $('#portrait').attr('src', data.image);
+    });
+                
+       layers[1].on('featureClick', function(e, latlng, pos, data, layerNumber) {
+      $('#iframe').attr('src', data.url + "embed/");
+           });
+
+       });      
+        
       }
             
+            //display count of total instagrams taken so far
             $.getJSON("http://jossphilippe.cartodb.com/api/v2/sql?q=SELECT%20count(*)%20FROM%20instagram_media", function (data) {
                 // Get the 'items' from the first group.
                
@@ -53,8 +78,12 @@
             
       window.onload = initialize;
     </script>
-
+     </div>
+<div class="councillegend">
+    <img id="portrait" src="" height="45" width="45">
+        <a>legend test</a>
 </div>
+    </div>
 <div class="sidepanel">
     <div class="wrapper">
         <div class="context subheader">
@@ -63,37 +92,16 @@
         <p><a id="count"></a>Instagrams of plastic bag litter across NYC Council Districts</p>
           
 
-   
-<!--                <H2>TEST INSTASCROLL</H2>-->
-        
-                <div id="instafeed" style="height: 200px;">
-                    <script type="text/javascript">
-    var feed = new Instafeed({
-        get: 'tagged',
-        tagName: 'bagitnyc',
-        clientId: 'edf88a2a6fa94c9889e9800db8317f68',
-        limit: 40,
-        sortBy: 'most-liked',
-        after: function () {
-   var images = $("#instafeed").find('a');
-    $.each(images, function(index, image) {
-      var delay = (index * 75) + 'ms';
-      $(image).css('-webkit-animation-delay', delay);
-      $(image).css('-moz-animation-delay', delay);
-      $(image).css('-ms-animation-delay', delay);
-      $(image).css('-o-animation-delay', delay);
-      $(image).css('animation-delay', delay);
-      $(image).addClass('animated flipInX');
-    });
-  },
-  template: '<a href="{{link}}" target="_blank"><img src="{{image}}" /><div class="likes">&hearts; {{likes}}</div></a>'
-});
-feed.run();
-</script>
+
+<!--
+<iframe id="iframe" src="" width="436" height="600" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+-->
+                    <iframe id="iframe" src="http://council.nyc.gov/d11/html/members/home.shtml" width="436" height="600" frameborder="0" scrolling="no" allowtransparency="true" style="-webkit-transform:scale(0.9);-moz-transform-scale(0.5);"></iframe>
+
                 </div>
             </div>
 
-      </div>
+
 
 
   </body>
