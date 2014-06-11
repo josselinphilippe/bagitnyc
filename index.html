@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="css/makeitresponsive.css">
     <link rel="stylesheet" href="css/light-theme.css">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Amatic+SC">
+      <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:300,400' rel='stylesheet' type='text/css'>
       <script type="text/javascript" src="instafeed.js/instafeed.min.js"></script>
   </head>
   <body>
@@ -30,37 +31,83 @@
       function initialize() {
         cartodb.createVis('map', 'http://jossphilippe.cartodb.com/api/v2/viz/4dedce04-91da-11e3-ada5-0e49973114de/viz.json', {
             shareable: true,
+            legend:false,
+            cartodb_logo: false,
             title: false,
             description: false,
-            search: true,
+            search: false,
             tiles_loader: true,
             center_lat: 40.711346,
             center_lon: -73.947826,
             zoom: 12
         })
         
+        
        .done(function(vis, layers) {
         
-        layers[1].getSubLayer(1).set({
+          var instagram = layers[1].getSubLayer(1).set({
            interactivity: 'url',
            infowindow: false,
         })
-          layers[1].getSubLayer(0).set({
-           interactivity: 'image',
+          var council = layers[1].getSubLayer(0).set({
+           interactivity: 'image, name, sponsor',
            infowindow: false,
         })
 
-        layers[1].on('featureOver', function(e, latlng, pos, data, layerNumber) {
+          council.on('featureOver', function(e, latlng, pos, data, layerNumber) {
       $('#portrait').attr('src', data.image);
-    });
-                
-       layers[1].on('featureClick', function(e, latlng, pos, data, layerNumber) {
-      $('#iframe').attr('src', data.url + "embed/");
-           });
+              $("#name").empty().append(data.name);
+              $("#sponsor").empty().append(data.sponsor);
+        });
+               
+//           council.on('featureOut', function(e, latlng, pos, data, layerNumber) {
+//       console.log("mouse left polygon with data: " + data.image);
+//        });
+           instagram.on('featureClick', function(e, latlng, pos, data, layerNumber) {
+               $('#iframe').attr('src', data.url + "embed/");
+               e.layer.setCartocss({
+              color: "red", 		  
+			  weight: 3,
+              opacity: 1
+            });
+        });
+           
+           //begin vector hover integration
+ var sql = new cartodb.SQL({ user: 'andrew', format: 'geojson' });
 
-       });      
-        
-      }
+var marketsLayer = L.geoJson(null, { 
+          style: {
+            color: "transparent",
+            fillColor: "transparent",
+            weight: 1,
+            opacity: 0.65
+          }
+        }).addTo(map);
+
+sql.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from ne_50m_urban_areas").done(function(geojson) {
+          marketsLayer.addData(geojson);
+          marketsLayer.on('mouseover', function(e) {
+            e.layer.setStyle({
+              color: "red",
+  		  
+			  weight: 3,
+              opacity: 1
+            });
+          })
+          marketsLayer.on('mouseout', function(e) {
+            marketsLayer.resetStyle(e.layer);
+          });
+        });
+//end vector hover integration
+           
+           //set mouse event as variable to apply cartocss
+//           var Instagram = instagram.on('featureClick', function(e, latlng, pos, data, layerNumber) {
+//      $('#iframe').attr('src', data.url + "embed/");
+//       });
+//           Instagram.setCartoCSS{
+//       });  
+       });
+        }
             
             //display count of total instagrams taken so far
             $.getJSON("http://jossphilippe.cartodb.com/api/v2/sql?q=SELECT%20count(*)%20FROM%20instagram_media", function (data) {
@@ -80,23 +127,68 @@
     </script>
      </div>
 <div class="councillegend">
-    <img id="portrait" src="" height="45" width="45">
-        <a>legend test</a>
+    <div class="infowindow-wrapper">
+        <div class="infowindow-title">
+            <a id="name" class="name">Melissa Mark-Viverito</a>
+        </div>
+                <img id="portrait" src="http://council.nyc.gov/d8/images/melissa%20mark-viverito.jpg">
+        <div class="infowindow-status"></div>
+                    <p class="status">Supports the bill?</p><a id="sponsor" class="sponsor"></a>
+
+        </div>
 </div>
     </div>
-<div class="sidepanel">
+      
+<!--test iframe in own div    -->
+<!--
+<div class="iframe-window">
+    <div class="infowindow-wrapper">
+        <iframe id="iframe" src="" width="436" height="600" frameborder="0" scrolling="no" allowtransparency="true" style="-webkit-transform:scale(0.9);-moz-transform-scale(0.5);"></iframe>
+        </div>
+      </div>
+-->
+
+      
+      <div class="sidepanel">
     <div class="wrapper">
         <div class="context subheader">
-          <h1>#BagitNYC</h1>
+          <h1>#BagitNYC<a class="instagram-hover social-slide" href="http://instagram.com/bagitnyc" target="_blank"></a>
+        <a class="facebook-hover social-slide" href="https://www.facebook.com/BagItNYC" target="_blank"></a></h1>
+            
         </div>
-        <p><a id="count"></a>Instagrams of plastic bag litter across NYC Council Districts</p>
-          
+        
+        <p class="count"><a id="count"></a>
+            
+            Instagrams of plastic bag litter across NYC Council Districts</p>
+<!--
+<a class="text"> <br>New York City has a plastic bag problem. We consume 5.2 billion of them every year and only 5% of those are recycled. Bummer!<br><br>
 
+We're working on a fix. New York City Council Members will soon vote on a bill to place a 10 cent fee on single-use plastic bags. Want to show your support? We're using Instagram to support this bill and you should too. It's rather easy:<br><br>
+    <ul id="instructions">
+    <li>1 - Post a photo of plastic bag litter to Instagram </li>
+    <li>2 - Hashtag #bagitnyc with location enabled</li>
+    <li>3 - Use the map to monitor support for the bill in your district</li>
+        <li>4 - Tell all your pals about it.</li>
+    </ul>
+    <br><br>
+
+
+Click around the BAGITNYC map to see the litter in your district and throughout NYC. Hover over a district and see if your council member has pledged their support to the bill (Intro 209-2014).
+
+Other ways to get involved (link to... https://bagitnyc.org/domore/)
+Learn more about the bill (link to https://bagitnyc.org/about/)
+
+FB
+TWITTER
+EMAIL
+                                          </a>
+-->
 
 <!--
 <iframe id="iframe" src="" width="436" height="600" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
 -->
-                    <iframe id="iframe" src="http://council.nyc.gov/d11/html/members/home.shtml" width="436" height="600" frameborder="0" scrolling="no" allowtransparency="true" style="-webkit-transform:scale(0.9);-moz-transform-scale(0.5);"></iframe>
+        
+                    <iframe id="iframe" src="introtext.html" width="100%" height="600" frameborder="0" scrolling="no" allowtransparency="true" style="-webkit-transform:scale(0.9);-moz-transform-scale(0.5);"></iframe>
 
                 </div>
             </div>
