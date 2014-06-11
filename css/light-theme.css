@@ -7,17 +7,65 @@ body{font: 400 5.5em/125% 'Amatic SC', Helvetica, Sans-serif; font-weight: regul
 .wrapper{display: block; padding: 0px 15px 0 15px; border: 0.5px;}
 
 .map{background-color:#eee; position: absolute; top: 0; left: 0; bottom: 0; width: 67%; height:100%;}
+div.cartodb-tooltip cartodb-zoom{left: 10px}
 
-.councillegend{height: 100px; width: 100px; position: absolute; background-color: #fff;}
+.councillegend{vertical-align: middle; height: 300px; width: 200px; position: absolute; background-color: #fff; bottom: 300px; left: 10px; border-radius: 28px 28px 28px 28px;
+-moz-border-radius: 28px 28px 28px 28px;
+-webkit-border-radius: 28px 28px 28px 28px;
+border: 5px solid #939494;}
+.infowindow-wrapper{position: absolute; padding: 5px 5px 5px 5px; border: 0.5px; height: inherit; text-align: center;}
+.infowindow-title{text-align: center}
+a.name{white-space: nowrap; font-size: 30px; color: #939494; text-align: center; padding-top: 5px;}
+#portrait{height: 175px; width: 75%;}
+p.status{white-space: nowrap; font-size: 30px; color: #939494; text-align: center;}
+.infowindow-status{text-align: center}
+a.sponsor{display: inline-block;
+        text-align: center;
+        white-space: nowrap;
+        padding: 1em;
+        font-size: 50px;
+        color: #F84F40; 
+        font-weight: 600; 
+        padding-top: 10px; 
+        padding-right: 0px; 
+        padding-left: 0px;
+        -webkit-animation-name: count;
+        -webkit-animation-duration: 1.5s;
+        -webkit-animation-timing-function: linear;
+        -webkit-animation-iteration-count: infinite;
 
-.sidepanel{background-color:#FFF; position: absolute; top: 0; right: 0; bottom: 0; width: 33%; height: 100%; overflow: auto;}
+        -moz-animation-name: count;
+        -moz-animation-duration: 1.5s;
+        -moz-animation-timing-function: linear;
+        -moz-animation-iteration-count: infinite;
+
+        animation-name: count;
+        animation-duration: 1.5s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+}
+
+/*
+.iframe-window{vertical-align: middle; height: 300px; width: 200px; position: absolute; background-color: #fff; bottom: 30px; left: 10px; border-radius: 28px 28px 28px 28px;}
+.iframe-window{vertical-align: middle; height: 300px; width: 200px; position: absolute; background-color: #fff; bottom: 30px; left: 10px; border-radius: 28px 28px 28px 28px;
+-moz-border-radius: 28px 28px 28px 28px;
+-webkit-border-radius: 28px 28px 28px 28px;
+border: 5px solid #939494;}
+*/
+
+
+.sidepanel{border-radius: 20px; background-color:#FFF; position: absolute; top: 0; right: 0; bottom: 0; width: 33%; height: 100%; overflow: auto;}
 
 
 h1{font-family: 'Amatic SC', Helvetica, Sans-serif;font-weight: 500; font-size: 120px; letter-spacing: -1px; color: #939494; line-height: 120px; margin-top: 8px; margin-bottom: -4px;}
 h3{font-weight: bold; font-size: 2; color: #CCC; text-transform: uppercase; margin: 10px 0 0 0;}
-p{margin-top: 5px; line-height: 0px; margin-bottom: 5px; white-space: nowrap; border-bottom: 02px solid #1F78B4;}
+p.count{margin-top: 5px; line-height: 0px; margin-bottom: 5px; white-space: nowrap; border-bottom: 02px solid #1F78B4;}
 a, a:visited{color: #397DB8; text-decoration: none;}
 a:hover{text-decoration: none;}
+a.text{font-family: 'Josefin Sans', sans-serif;
+line-height: 100%;}
+.instructions{font-size: 28px;
+line-height: 100%;}
 #count{display: inline-block;
         padding: 0.5em;
         font-size: 50px;
@@ -71,43 +119,33 @@ a:hover{text-decoration: none;}
 
 .context.footer{margin-top: 0px;}
 
-.subheader{border-bottom: 02px solid #1F78B4;}
+.subheader{border-bottom: 02px solid #1F78B4;white-space: nowrap;}
+.social-slide {
+    display: inline-block;
+	height: 48px;
+	width: 48px;
+	margin-left: 0px;
+    margin-right: -12px;
+
+	-webkit-transition: all ease 0.3s;
+	-moz-transition: all ease 0.3s;
+	-o-transition: all ease 0.3s;
+	-ms-transition: all ease 0.3s;
+	transition: all ease 0.3s;
+}
+.social-slide:hover {
+	background-position: 0px -48px;
+	box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.8);
+}
+
 
 .footer{border-top: 1px solid #ddd; margin-top: 30px;}
 
 .titleBlock{text-align: right;}
 
-#instafeed a {
-  padding:5px 5px 1px 5px;
-  margin:10px;
-  border:1px solid #e1e1e1;
-  display:inline-block;
-  border-radius: 4px;
-  position:relative;
-}
-
-#instafeed .likes {
-  background:rgba(31, 120, 180, 0.5);
-  font-family:sans-serif;
-  font-size:1em;
-  position:absolute;
-  color:#ffffff;
-  right:5px;
-  top:5px;
-  left:5px;
-  opacity:0;
-  text-align:center;
-  line-height:150px;
-  text-shadow:0 1px rgba(0,0,0,0.5);
-  -webkit-font-smoothing:antialiased;
-  -webkit-transition: opacity 100ms ease;
-	-moz-transition: opacity 100ms ease;
-	-o-transition: opacity 100ms ease;
-	-ms-transition: opacity 100ms ease;
-	transition: opacity 100ms ease;
-}
-
-#instafeed a:hover .likes {
-  opacity:1;
+.facebook-hover{
+   background-image: url('http://bradsknutson.com/wp-content/themes/flat-ui/images/facebook-hover.png');}
+.instagram-hover{
+   background-image: url('http://bradsknutson.com/wp-content/themes/flat-ui/images/instagram-hover.png');
 }
 
