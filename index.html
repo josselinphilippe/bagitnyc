@@ -51,7 +51,7 @@
         })
           var council = layers[1].getSubLayer(0).set({
            interactivity: 'image, name, sponsor',
-           infowindow: false,
+           infowindow: true,
         })
 
           council.on('featureOver', function(e, latlng, pos, data, layerNumber) {
@@ -133,7 +133,7 @@ sql.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from ne_5
         </div>
                 <img id="portrait" src="http://council.nyc.gov/d8/images/melissa%20mark-viverito.jpg">
         <div class="infowindow-status"></div>
-                    <p class="status">Supports the bill?</p><a id="sponsor" class="sponsor"></a>
+                    <p class="status">Supports the bill?</p><a id="sponsor" class="sponsor">Yes</a>
 
         </div>
 </div>

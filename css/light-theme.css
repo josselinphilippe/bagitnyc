@@ -58,15 +58,48 @@ border: 5px solid #939494;}
 
 
 h1{font-family: 'Amatic SC', Helvetica, Sans-serif;font-weight: 500; font-size: 120px; letter-spacing: -1px; color: #939494; line-height: 120px; margin-top: 8px; margin-bottom: -4px;}
+
 h3{font-weight: bold; font-size: 2; color: #CCC; text-transform: uppercase; margin: 10px 0 0 0;}
+
 p.count{margin-top: 5px; line-height: 0px; margin-bottom: 5px; white-space: nowrap; border-bottom: 02px solid #1F78B4;}
+
 a, a:visited{color: #397DB8; text-decoration: none;}
+
 a:hover{text-decoration: none;}
+
 a.text{font-family: 'Josefin Sans', sans-serif;
 line-height: 100%;}
-.instructions{font-size: 28px;
-line-height: 100%;}
-#count{display: inline-block;
+
+.instructions
+{font-size: 22px;
+line-height: 120%;
+list-style-type: none;
+text-align: left;
+white-space: normal;
+padding-left: 0px;}
+
+/*FadeOut ul code from http://jsfiddle.net/fGAZr/ */
+
+/*
+ul.instructions li:nth-child(1){
+    -webkit-animation: fadeIn 2s linear forwards;
+}
+ul.instructions li:nth-child(2){
+    -webkit-animation: fadeIn 2s linear 2s forwards;
+}
+ul.instructions li:nth-child(3){
+    -webkit-animation: fadeIn 2s linear 4s forwards;
+}
+ul.instructions li:nth-child(1){
+    -webkit-animation: fadeIn 2s linear forwards;
+}
+@-webkit-keyframes fadeIn {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}}
+*/
+
+#count {display: inline-block;
         padding: 0.5em;
         font-size: 50px;
         color: #F84F40; 
