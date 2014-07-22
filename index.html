@@ -17,8 +17,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&v=3.8"></script>
     <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
 <!--    <link rel="stylesheet" href="css/light-theme.css">-->
-    <link rel="stylesheet" href="css/makeitresponsive.css">
-    <link rel="stylesheet" href="css/light-theme.css">
+BG    <link rel="stylesheet" href="css/light-theme.css">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Amatic+SC">
       <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:300,400' rel='stylesheet' type='text/css'>
       <script type="text/javascript" src="instafeed.js/instafeed.min.js"></script>
@@ -50,14 +49,15 @@
            infowindow: false,
         })
           var council = layers[1].getSubLayer(0).set({
-           interactivity: 'image, name, sponsor',
-           infowindow: true,
+           interactivity: 'image, name, sponsor, points_count',
+           infowindow: false,
         })
 
           council.on('featureOver', function(e, latlng, pos, data, layerNumber) {
-      $('#portrait').attr('src', data.image);
+              $('#portrait').attr('src', data.image);
               $("#name").empty().append(data.name);
               $("#sponsor").empty().append(data.sponsor);
+              $("#number").empty().append(data.points_count);
         });
                
 //           council.on('featureOut', function(e, latlng, pos, data, layerNumber) {
@@ -132,6 +132,8 @@ sql.execute("select cartodb_id, ST_Simplify(the_geom, 0.1) as the_geom from ne_5
             <a id="name" class="name">Melissa Mark-Viverito</a>
         </div>
                 <img id="portrait" src="http://council.nyc.gov/d8/images/melissa%20mark-viverito.jpg">
+        <div class="infowindow-number"></div>
+                    <p class="status">Bags in their district?</p><a id="number" class="sponsor">3</a>
         <div class="infowindow-status"></div>
                     <p class="status">Supports the bill?</p><a id="sponsor" class="sponsor">Yes</a>
 
