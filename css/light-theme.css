@@ -9,7 +9,7 @@ body{font: 400 5.5em/125% 'Amatic SC', Helvetica, Sans-serif; font-weight: regul
 .map{background-color:#eee; position: absolute; top: 0; left: 0; bottom: 0; width: 67%; height:100%;}
 div.cartodb-tooltip cartodb-zoom{left: 10px}
 
-.councillegend{vertical-align: middle; height: 300px; width: 200px; position: absolute; background-color: #fff; bottom: 300px; left: 10px; border-radius: 28px 28px 28px 28px;
+.councillegend{vertical-align: middle; height: 370px; width: 200px; position: absolute; background-color: #fff; bottom: 195px; left: 10px; border-radius: 28px 28px 28px 28px;
 -moz-border-radius: 28px 28px 28px 28px;
 -webkit-border-radius: 28px 28px 28px 28px;
 border: 5px solid #939494;}
@@ -29,6 +29,8 @@ a.sponsor{display: inline-block;
         padding-top: 10px; 
         padding-right: 0px; 
         padding-left: 0px;
+    padding-bottom: 0px;
+    
         -webkit-animation-name: count;
         -webkit-animation-duration: 1.5s;
         -webkit-animation-timing-function: linear;
