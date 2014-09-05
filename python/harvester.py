@@ -32,9 +32,11 @@ def Instagram_API(min_id=None):
         # Open the page and push its contents onto bagitnyc_media
         bagitnyc_media += page[0]
 
-    # If min_id passed, only return media that came after it
-    if min_id:
-        bagitnyc_media = filter(lambda m: m.id > min_id, bagitnyc_media)
+    # If min_id passed, only return media that came after it.
+    # Lambda is the same as defining a new function within the filter function. If min_id is passed in the API.tag_recent_media, retrieve all media with with greater id value (photos taken since oldest photo in api call) 
+    
+#    if min_id:
+#        bagitnyc_media = filter(lambda m: m.id > min_id, bagitnyc_media)
     return bagitnyc_media
 
 
@@ -51,7 +53,7 @@ def create_sql_statement(x, y, link, media_credit, media_id, url, created_time):
     sql_query = sql_query + ')'
     return sql_query
 
-
+ 
 if __name__ == '__main__':
     #
     # For each row in whatever is returned from get_data(), create an SQL
@@ -70,9 +72,15 @@ if __name__ == '__main__':
                     media.link,
                     media.created_time
                 )
-                print(sql_query)
+#                print(sql_query)
 
                 # This is where you call insert_into_cartodb()
                 insert_into_cartodb(sql_query)
         except exceptions.AttributeError:
             pass
+
+if __name__ == '__main__':
+    try:
+     cl.sql('DELETE FROM instagram_media WHERE cartodb_id NOT IN (SELECT MIN(cartodb_id) FROM instagram_media GROUP BY url)')
+    except CartoDBException as e:
+        print ("some error ocurred", e)
