@@ -1,0 +1,67 @@
+<head>
+
+    <meta charset="utf-8">
+    <!--Edit the title of the page-->
+    <title>#BagitNYC Map</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+<!--
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+-->
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+    <!--Switch between the different themes changing the stylesheet below - light-theme.css |dark-theme.css -->
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&v=3.8"></script>
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+<!--    <link rel="stylesheet" href="css/light-theme.css">-->
+    <link rel="stylesheet" href="css/makeitresponsive.css">
+    <link rel="stylesheet" href="css/light-theme.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Amatic+SC">
+      <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:300,400' rel='stylesheet' type='text/css'>
+      <script type="text/javascript" src="instafeed.js/instafeed.min.js"></script>
+</head> 
+<body>
+    <script>
+  $(document).ready(function(){
+var numOfItemsToFade = 1,
+numOfItems = $('ul li').length;
+showList();
+function showList() {
+$('ul li:nth-child('+numOfItemsToFade+')').fadeIn(500, function(){
+numOfItemsToFade++;
+if(numOfItemsToFade<= numOfItems){
+showList();
+}
+});
+}
+});
+        </script>
+       <a class="text"> <br>New York City has a plastic bag problem. We consume 5.2 billion of them every year and only 5% of those are recycled. Bummer!<br><br>
+
+We're working on a fix. New York City Council Members will soon vote on a bill to place a 10 cent fee on carryout bags. Want to show your support? We're using Instagram to support this bill and you should too. It's rather easy:<br><br>
+           
+    <ul class="instructions">
+    <li>1 - Post a photo of plastic bag litter to Instagram. </li>
+    <li>2 - Hashtag #bagitnyc with location enabled.</li>
+    <li>3 - Use the map to monitor support for the bill in your district.</li>
+        <li>4 - Tell all your pals about it.</li>
+    </ul>
+    <br><br>
+   
+<!--
+
+
+Click around the BAGITNYC map to see the litter in your district and throughout NYC. Hover over a district and see if your council member has pledged their support to the bill (Intro 209-2014).
+-->
+<!--
+
+Other ways to get involved (link to... https://bagitnyc.org/domore/)
+Learn more about the bill (link to https://bagitnyc.org/about/)
+-->
+
+
+                                          </a>
+
+</body>
