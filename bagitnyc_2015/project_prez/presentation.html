@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>#BagitNYC Data Collection Program</title>
+  <title>Getting Started with deck.js</title>
 
   <meta name="description" content="A jQuery library for modern HTML presentations">
   <meta name="author" content="Caleb Troughton">
@@ -37,8 +37,16 @@
   <div class="deck-container">
 
     <!-- Begin slides -->
-    
-   <section class="slide" id="how-to-overview">
+    <section class="slide" id="title-slide">
+        <h6 style="float:right; text-align:right;" class="slide">use right arrow key to continue...</h6>
+        <img src="http://jossphilippe.webfactional.com/bagitnyc/mosaic_map_title.png"></img>
+    </section>
+
+<!--
+
+-->
+
+     <section class="slide" id="how-to-overview">
       <h2>Proposal for #BagitNYC data collection program</h2>
         <div style="float:left; width:50%">
         <iframe src="http://jossphilippe.webfactional.com/bagitnyc/index.html" class="map" width="800" height="725" frameborder="0" class="slide"></iframe>
@@ -57,7 +65,16 @@
     
     <section class="slide" id="timeline">
       <h2>Timeline</h2>
-      
+        <ol>
+        <li class="slide">Collect feedback from coalition members</li>   
+          <li class="slide">Meet with coalition organization reps to finalize program and set up Instagram accounts</li>
+          <li class="slide">Meet participants selected by organizations + CartoDB mapping workshop   </li>
+          <li class="slide"><strong>March 1st: Program Launch </strong></li>
+          <li class="slide">Weekly updates on participants' collection efforts via program portal website (coming soon)</li>  
+          <li class="slide">Additional/optional second workshop for participants keen to develop GIS and web development experience</li>   
+                      <li class="slide">Final deliverable emailed to council reps by all participants, see next slide</li>  
+<li class="slide"><strong>April 1st: Capstone Program Event - Plastic Bag Hunt in Bronx Districts</strong>.<br>Program participants will help to coordinate the biggest effin' bag hunt yet, at this point equipped to chaperone younger mappers that may participate.  </li>  
+            </ul>
       </section>
 
     <section class="slide" id="sample_deliverable">
@@ -66,115 +83,29 @@
                                                       Darren Klein
                                                       Brooklyn, NY
 January 14, 2015
-Dear City Council Member,
+Dear City Council Member Robert Cornegy,
 
-As a constituent of your district, I am writing to you to express
-my support for the Lander-Chin bag bill.  Over the past four weeks, 
-I have participated in a program that seeks to document plastic bag 
-litter around the City - <a href="http://nycaudubon.neocities.org/DK_Bag_Viz.html" target="_blank">click here</a> to see a map of all of the bags
-that I recorded in district X.
+As constituents of your district, we are writing to you to express
+our support for legislation to reduce plastic bag pollution, item 0209.  Over the past four weeks, 
+we have participated in a program coordinated by BagItNYC that seeks to collect geographic and photographic data on plastic bag 
+litter around the City. Below is a map of all plastic bags documented in Bedstuy, City Council District 36. <iframe width='100%' height='520' frameborder='0' src='http://jossphilippe.cartodb.com/viz/a48f0154-9b4a-11e4-8bff-0e018d66dc29/embed_map' allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe> 
 
-In total, I counted X bags in your district.  The Lander-Chin bag
-bill will imppose a 10 cent fee on all carryout bags, thereby 
-reducing the number of plastic bags consumed and helping to alleviate
-plastic bag litter in your district.
-
-To improve the environment of New York City, I am asking that you
-please sign onto the Lander-Chin bag bill as a co-sponsor.
+In total, we photographed <strong>270</strong> plastic bags in your district. We believe your support for a 10 cent charge on all carryout bags can reduce the impact of plastic pollution in our community and make Bedstuy a reference for environmental guardianship. 
 
 Thank you very much,
 Darren Klein
+Josselin Philippe
+
+329 Tompkins Avenue
+Brooklyn, NY 11216 
       </pre>
       </section>
 
-    <section class="slide" id="themes">
-      <h2>Style Themes</h2>
-      <p>Customizes the colors, typography, and layout of slide&nbsp;content.</p>
-      <pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/css/style-theme.css&quot;&gt;</code></pre>
-      <h2>Transition Themes</h2>
-      <p>Defines transitions between slides using CSS3 transitions.  Less capable browsers fall back to cutaways. But <strong>you</strong> aren&rsquo;t using <em>those</em> browsers to give your presentations, are&nbsp;you&hellip;</p>
-      <pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/css/transition-theme.css&quot;&gt;</code></pre>
-    </section>
+    <section class="slide" id="sample_viz">
+      <h5>Sample Bag Hunt Visualization</h5>
+      <iframe width='100%' height='720' src="http://jossphilippe.webfactional.com/bagitnyc/Anti-Eviction-Mapping-Project/bagitnyc.html"></iframe>
+      </section>
 
-    <section class="slide" id="extensions">
-      <h2>Extensions</h2>
-      <p>Core gives you basic slide functionality with left and right arrow navigation, but you may want more. Here are the ones included in this&nbsp;deck:</p>
-
-      <ul>
-        <li class="slide" id="extensions-goto">
-          <strong>deck.goto</strong>: Adds a shortcut key to jump to any slide number.  Hit g, type in the slide number, and hit&nbsp;enter.
-        </li>
-
-        <li class="slide" id="extensions-menu">
-          <strong>deck.menu</strong>: Adds a menu view, letting you see all slides in a grid. Hit m to toggle to menu view, continue navigating your deck, and hit m to return to normal view. Touch devices can double-tap the deck to switch between&nbsp;views.
-        </li>
-
-        <li class="slide" id="extensions-navigation">
-          <strong>deck.navigation</strong>: Adds clickable left and right buttons for the less keyboard&nbsp;inclined.
-        </li>
-
-        <li class="slide" id="extensions-status">
-          <strong>deck.status</strong>: Adds a page number indicator. (current/total)
-        </li>
-
-        <li class="slide" id="extensions-scale">
-          <strong>deck.scale</strong>: Scales each slide to fit within the deck container using CSS Transforms for those browsers that support them.
-        </li>
-      </ul>
-
-      <p class="slide" id="extension-folders">Each extension folder in the download package contains the necessary JavaScript, CSS, and HTML&nbsp;files. For a complete list of extension modules included in deck.js, check out the&nbsp;<a href="http://imakewebthings.github.com/deck.js/docs">documentation</a>.</p>
-    </section>
-
-    <section class="slide" id="nested">
-      <h2>Nested Slides</h2>
-      <p>That last slide had a few steps.  To create substeps in slides, just nest them:</p>
-      <pre><code>&lt;section class=&quot;slide&quot;&gt;
-  &lt;h2&gt;Extensions&lt;/h2&gt;
-  &lt;p&gt;Core gives you basic slide functionality...&lt;/p&gt;
-  &lt;ul&gt;
-    &lt;li class=&quot;slide&quot;&gt;
-      &lt;h3&gt;deck.goto&lt;/h3&gt;
-      &lt;p&gt;Adds a shortcut key to jump to any slide number...&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li class=&quot;slide&quot;&gt;...&lt;/li&gt;
-    &lt;li class=&quot;slide&quot;&gt;...&lt;/li&gt;
-    &lt;li class=&quot;slide&quot;&gt;...&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/section&gt;</code></pre>
-    </section>
-
-    <section class="slide" id="elements-images">
-      <h2>Other Elements: Images</h2>
-      <img src="http://placekitten.com/600/375" alt="Kitties">
-      <pre><code>&lt;img src=&quot;http://placekitten.com/600/375&quot; alt=&quot;Kitties&quot;&gt;</code></pre>
-    </section>
-
-    <section class="slide" id="elements-blockquotes">
-      <h2>Other Elements: Blockquotes</h2>
-      <blockquote cite="http://example.org">
-        <p>Food is an important part of a balanced diet.</p>
-        <p><cite>Fran Lebowitz</cite></p>
-      </blockquote>
-      <pre><code>&lt;blockquote cite=&quot;http://example.org&quot;&gt;
-  &lt;p&gt;Food is an important part of a balanced diet.&lt;/p&gt;
-  &lt;p&gt;&lt;cite&gt;Fran Lebowitz&lt;/cite&gt;&lt;/p&gt;
-&lt;/blockquote&gt;</code></pre>
-    </section>
-
-
-    <section class="slide" id="elements-videos">
-      <h2>Other Elements: Video Embeds</h2>
-      <p>Embed videos from your favorite online video service or with an HTML5 video&nbsp;element.</p>
-
-      <iframe src="http://player.vimeo.com/video/1063136?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" frameborder="0"></iframe>
-
-      <pre><code>&lt;iframe src=&quot;http://player.vimeo.com/video/1063136?title=0&amp;amp;byline=0&amp;amp;portrait=0&quot; width=&quot;400&quot; height=&quot;225&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;</code></pre>
-    </section>
-
-    <section class="slide" id="digging-deeper">
-      <h2>Digging Deeper</h2>
-      <p>If you want to learn about making your own themes, extending deck.js, and more, check out the&nbsp;<a href="../docs/">documentation</a>.</p>
-    </section>
 
     <!-- deck.navigation snippet -->
     <div aria-role="navigation">
