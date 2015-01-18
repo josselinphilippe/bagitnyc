@@ -1,3 +1,16 @@
+# 01-18-2015
+JP: the targetted email functionality can be described as such: 
+The map should include some sort of outreach tool for the user to contact their representative. 
+This requires the user to submit their street address.
+With the address geolocated, run cartodb.sql to return district that ST_intersect with district geometry. 
+Retrieve all necessary data to build targetted html email.
+
+This includes but may not be limited to:
+council district number
+council member's name
+council member's email
+number of bags in member's district
+
 # 01-16-2015
 JP: created email_rep folder for this purpose
 
@@ -7,3 +20,4 @@ using a geocoder(google?) to find user's residence coordinates and cartodb.sql t
 
 # 01-11-2015
 JP: started repo, add presentation files
+
