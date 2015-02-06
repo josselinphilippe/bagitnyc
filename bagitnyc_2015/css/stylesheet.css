@@ -131,14 +131,31 @@ border-bottom: 2px solid #939494;
 .districts_info{
 float:left;
 width: 185px;
+    height: 150px;
+    position: relative;
 }
 
 ul.hover_data {
 list-style-type: none;
-margin: 0;
-    padding: 0;
-    font-size: 23px;
+position: absolute;
+padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 2px;
+font-size: 20px;
+bottom: 0px;
+width: 185px;
 }
+
+li.item {
+
+/*padding: 0px 0px 0px 0px;*/
+    margin: 0px 7px 0px 0px;
+
+}
+
+div.name{
+    font-size: 1.2vw;
+}
+
 .img_container {
 
 /*
