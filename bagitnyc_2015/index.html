@@ -7,8 +7,20 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>-->
  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<!--    <script src="assets/leaflet-label/leaflet.label.js"></script>-->
+    	<link rel="stylesheet" href="dist/leaflet.label.css" />
+<!--	<script src="../libs/leaflet/leaflet-src.js"></script>-->
+	<script src="assets/Label.js"></script>
+	<script src="assets/BaseMarkerMethods.js"></script>
+	<script src="assets/Marker.Label.js"></script>
+	<script src="assets/CircleMarker.Label.js"></script>
+	<script src="assets/Path.Label.js"></script>
+	<script src="assets/Map.Label.js"></script>
+	<script src="assets/FeatureGroup.Label.js"></script>
+    
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<!--	<link rel="stylesheet" href="../dist/leaflet.css" />-->
  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
     <link rel="stylesheet" href="css/stylesheet.css"/>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
@@ -54,12 +66,14 @@ right of the tabs -->
 <!-- I'd like to bring the interactive data to align against the council member portrait (possibly add blinking style on underline?)-->
 
     
-<ul id="hover_data" class="hover_data">
-<li class="name" id="name"><a>Melissa Mark-Viverito</a></li>
-<li class="blank"><a> &nbsp; </a></li>
-<li class="coundist"><a>District<span id="coundist" style="float:right">8</span></a></li>
-<li class="status"><a>Supporter<span id="status" style="float:right">Not Yet</span></a></li>
-<li class="bags_number"><a>Number of bags<span  id="bags_number" style="float:right">3</span></a></li>
+
+<div class="name" id="name"><a>Melissa Mark-Viverito</a></div>
+<!--<li class="blank"><a> &nbsp; </a></li>-->
+        <ul id="hover_data" class="hover_data">
+<li class="coundist item"><a>District<span id="coundist" style="float:right">8</span></a></li>
+    <li class="bags_number item"><a>Number of bags<span  id="bags_number" style="float:right">3</span></a></li>
+
+<li class="status item"><a>Supporter<span id="status" style="float:right">Not Yet</span></a></li>
 
 </ul>
         
@@ -85,7 +99,7 @@ right of the tabs -->
           bag stats <br/>
           social media links <br/>
           data credit <br/>
-        </div>
+        </div>        </div>
     
        
     
