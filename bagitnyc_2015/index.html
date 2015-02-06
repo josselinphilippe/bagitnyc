@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>original---new</title>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>-->
+ <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<!--    <script src="assets/leaflet-label/leaflet.label.js"></script>-->
+    	<link rel="stylesheet" href="dist/leaflet.label.css" />
+<!--	<script src="../libs/leaflet/leaflet-src.js"></script>-->
+	<script src="assets/Label.js"></script>
+	<script src="assets/BaseMarkerMethods.js"></script>
+	<script src="assets/Marker.Label.js"></script>
+	<script src="assets/CircleMarker.Label.js"></script>
+	<script src="assets/Path.Label.js"></script>
+	<script src="assets/Map.Label.js"></script>
+	<script src="assets/FeatureGroup.Label.js"></script>
+    
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<!--	<link rel="stylesheet" href="../dist/leaflet.css" />-->
+ <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="css/stylesheet.css"/>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:600' rel='stylesheet' type='text/css'>
+
+	<style>
+		
+	</style>
+    
+</head>
+<body>
+	<div id="map"></div>
+   
+ <div id="tabs_container">
+      
+<!-- These are the tabs -->
+<ul class="tabs">
+<li class="active">
+<a href="#" rel="#tab_1_contents" class="tab">Data</a>
+</li>
+<li><a href="#" rel="#tab_2_contents" class="tab">About</a></li>
+<!--        <li><a href="#" rel="#tab_3_contents" class="tab">Tab 3</a></li>-->
+</ul>
+      
+<!-- This is used so the contents don't appear to the 
+right of the tabs -->
+<div class="clear"></div>
+
+<!-- This is a div that hold all the tabbed contents -->
+<div class="tab_contents_container">
+
+<!-- Tab 1 Contents -->
+<div id="tab_1_contents" class="tab_contents tab_contents_active">
+
+
+<!-- This is everything that comes under the nav tabs -->
+            
+<div id="infowindow" class="infowindow">
+    <div class="districts">
+    <div class="districts_info">
+
+<!-- Let's make a list, uniform styling means more rest-->
+<!-- I'd like to bring the interactive data to align against the council member portrait (possibly add blinking style on underline?)-->
+
+    
+<ul id="hover_data" class="hover_data">
+<li class="name" id="name"><a>Melissa Mark-Viverito</a></li>
+<li class="blank"><a> &nbsp; </a></li>
+<li class="coundist"><a>District<span id="coundist" style="float:right">8</span></a></li>
+<li class="status"><a>Supporter<span id="status" style="float:right">Not Yet</span></a></li>
+<li class="bags_number"><a>Number of bags<span  id="bags_number" style="float:right">3</span></a></li>
+
+</ul>
+        
+        
+<!--
+        <h4 id="name">Melissa Mark-Viverito</h4><br/>
+    <h4>District&nbsp;&nbsp;<span id="coundist" style="float:right">8</h4></h4><br/>
+        <h4>Supporter?</h4><h4 id="status">Not Yet</h4></h4><br/>
+        <h4>How many bags?</h4><h4 id="bags_number">3</h4></h4><br/>
+-->
+</div>
+           <div class="img_container">
+    <img id="portrait" class="portrait" src="http://council.nyc.gov/d8/images/melissa%20mark-viverito.jpg"></img>
+                                                                                                          </div>
+    </div> 
+<iframe id="iframe" src="" width="100%" height="" frameborder="0" scrolling="no" allowtransparency="true" style="border-radius: 8px 8px 8px 8px;"></iframe>
+    </div>
+        </div>
+    
+        <!-- Tab 2 Contents -->
+        <div id="tab_2_contents" class="tab_contents">
+          I'm Smart Enough!
+        </div>
+    
+       
+    
+      </div>
+    </div>
+
+	<script type="text/javascript">
+        
+        //great ressource for fixing onload issues with leaflet plugins
+        //https://thechamplord.wordpress.com/2014/07/04/using-javascript-window-onload-event-properly/
+        
+        function myPluginLoadEvent(func) {
+    // assign any pre-defined functions on 'window.onload' to a variable
+    var oldOnLoad = window.onload;
+    // if there is not any function hooked to it
+    if (typeof window.onload != 'function') {
+        // you can hook your function with it
+        window.onload = func
+    } else {     // someone already hooked a function
+        window.onload = function () {
+            // call the function hooked already
+            oldOnLoad();
+            // call your awesome function
+            func();
+        }
+    }
+}
+
+// pass the function you want to call at 'window.onload', in the function defined above
+myPluginLoadEvent(function(){
+
+        
+		var map = L.map('map').setView([40.711346, -73.947826], 12);
+
+//tile sources:
+//https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png        
+//satellite: http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
+
+        //positron: L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{
+ // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+//});
+        L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+            minZoom:11,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+//			id: 'examples.map-20v6611k'
+		}).addTo(map);
+
+
+        
+// get string for bill status
+function getStatus(d) {
+if (d < 1 ){
+return 'Not Yet'}
+else if (d > 0){ return 'Yes'  }
+};
+
+// get color for bill status
+function getColor(d){
+if (d < 1 ){
+return '#a6cee3';
+}else if (d > 0 ){
+return '#1f77b2';
+}
+};
+    
+    //get instagram iframe embed url
+    function getUrl(d){
+return d;
+};
+
+function polygonStyle(feature) {
+return {
+weight: 2,
+opacity: 1,
+color: 'white',
+dashArray: 0,
+fillOpacity: 0.5,
+fillColor: getColor(feature.properties.status)
+};
+}
+
+function circleStyle(feature) {
+return {
+radius: 5,
+fillColor: "#f84f40",
+color: "#fff",
+weight: 1.5,
+opacity: 1,
+fillOpacity: 0.9
+};
+//    console.log(feature.properties.url);
+}
+
+
+function highlightPolygons(e) {
+var layer = e.target;
+    
+layer.setStyle({
+weight: 5,
+color: '#fff',
+dashArray: 0,
+fillOpacity: 0
+});
+//info.update(layer.feature.properties);
+//console.log("done");
+$("#portrait").attr('src', layer.feature.properties.image).hide().fadeIn(400);
+$("#coundist").empty().append(layer.feature.properties.coundist).hide().fadeIn(400);
+$("#name").empty().append(layer.feature.properties.name).hide().fadeIn(400);
+$("#status").empty().append(layer.feature.properties.sponsor).hide().fadeIn(400);
+$("#bags_number").empty().append(layer.feature.properties.points_count).hide().fadeIn(400);
+}
+    
+function highlightCircles(e) {
+var layer = e.target;
+console.log(e.latlng);
+layer.setStyle({
+
+radius: 10,
+fillColor: "#FFFE4C",
+color: "#fff",
+weight: 2,
+opacity: 1,
+fillOpacity: 0.8
+});
+if (!L.Browser.ie && !L.Browser.opera) {
+layer.bringToFront();
+}
+
+$('#iframe').show().attr('src', layer.feature.properties.url + "embed/").attr('height', 375).fadeIn(400);
+}
+      
+        ///
+        
+        
+
+
+	
+
+//RESET STYLE FUNCTIONS
+//DISTRICTS
+function resetPolygonHighlight(e) {
+districtsLayer.resetStyle(e.target);
+
+//            instagramLayer.resetStyle(e.target);
+}
+//INSTAGRAM
+function resetCircleHighlight(e) {
+//			districtsLayer.resetStyle(e.target);
+instagramLayer.resetStyle(e.target);
+//                   $('#iframe').hide();
+
+}
+
+//ZOOM TO DISTRICT WHEN CLICKED
+function zoomToFeature(e) {
+map.fitBounds(e.target.getBounds()).setZoom(15);
+//    map.setZoom(18);
+    
+}
+
+	//CALL INTERACTIVE STYLE FUNCTIONS FOR EACH LAYER
+//DISTRICTS
+function onEachPolygon(feature, layer) {
+layer.on({
+mouseover: highlightPolygons, 
+mouseout: resetPolygonHighlight,
+click: zoomToFeature
+});
+}
+
+//INSTAGRAM      
+function onEachCircle(feature, layer) {
+layer.on({
+    mouseover: highlightCircles,
+    mouseout: resetCircleHighlight,
+    click: zoomToFeature
+});
+}
+
+//CARTODB GEOJSON DATA 
+var districtsURL = "https://jossphilippe.cartodb.com/api/v2/sql?format=geojson&q=SELECT cartodb_id, the_geom, coundist, name, status, contact_email, points_count, sponsor, image FROM nycc_merge_final";
+var instagramURL = "https://jossphilippe.cartodb.com/api/v2/sql?format=geojson&q=SELECT cartodb_id, the_geom, url FROM instagram_media";
+
+//DISTRICTS
+$.getJSON(districtsURL, function(data) {
+districtsLayer = L.geoJson(data, {
+style: polygonStyle,
+onEachFeature: onEachPolygon
+}).addTo(map);
+//    bindLabel(data.coundist).
+//    console.log(data.object.feature.properties);
+//    console.log(data.feature.properties.coundist);
+//    console.log(data.features.properties.coundist);
+//         var label = new L.Label();
+//        label.setContent("MultiPolygon static label");
+//        label.setLatLng(districtsLayer.getBounds().getCenter());
+//        map.showLabel(label);
+})
+.done(function() {
+
+//INSTAGRAM
+$.getJSON(instagramURL, function(data) {
+instagramLayer = L.geoJson(data, {
+pointToLayer: function (feature, latlng){
+return L.circleMarker(latlng)
+},
+style: circleStyle,
+onEachFeature: onEachCircle
+
+}).addTo(map);
+});
+});
+
+        
+		map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+
+        //NAVIGATION SCRIPT
+ // Set up a listener so that when anything with a class of 'tab' 
+ // is clicked, this function is run.
+ $('.tab').click(function () {
+
+  // Remove the 'active' class from the active tab.
+  $('#tabs_container > .tabs > li.active')
+	  .removeClass('active');
+	  
+  // Add the 'active' class to the clicked tab.
+  $(this).parent().addClass('active');
+
+  // Remove the 'tab_contents_active' class from the visible tab contents.
+  $('#tabs_container > .tab_contents_container > div.tab_contents_active')
+	  .removeClass('tab_contents_active');
+
+  // Add the 'tab_contents_active' class to the associated tab contents.
+  $(this.rel).addClass('tab_contents_active');
+
+ });
+        
+   
+//		var legend = L.control({position: 'bottomright'});
+//
+//		legend.onAdd = function (map) {
+//
+//			var div = L.DomUtil.create('div', 'legend'),
+//				grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+//				labels = [],
+//				from, to;
+//
+//			for (var i = 0; i < grades.length; i++) {
+//				from = grades[i];
+//				to = grades[i + 1];
+//
+//				labels.push(
+//					'<i style="background:' + getColor(from + 1) + '"></i> ' +
+//					from + (to ? '&ndash;' + to : '+'));
+//			}
+//
+//			div.innerHTML = labels.join('<br>');
+//			return div;
+//		};
+//
+//		legend.addTo(map);
+    
+     // your awesome code to run on window.onload
+    console.log('window loaded');
+});
+
+	</script>
+</body>
+</html>
