@@ -54,44 +54,41 @@ right of the tabs -->
 
 <!-- Let's make a list, uniform styling means more rest-->
 <!-- I'd like to bring the interactive data to align against the council member portrait (possibly add blinking style on underline?)-->
-
-    
-
+        
 <div class="name" id="name"><a>Melissa Mark-Viverito</a></div>
 <!--<li class="blank"><a> &nbsp; </a></li>-->
-        <ul id="hover_data" class="hover_data">
+<ul id="hover_data" class="hover_data">
 <li class="coundist item"><a>District<span id="coundist" style="float:right">8</span></a></li>
-    <li class="bags_number item"><a>Number of bags<span  id="bags_number" style="float:right">3</span></a></li>
+<li class="bags_number item"><a>Number of bags<span  id="bags_number" style="float:right">3</span></a></li>
 
 <li class="status item"><a>Supporter<span id="status" style="float:right">Not Yet</span></a></li>
 
 </ul>
-        
-        
-<!--
-        <h4 id="name">Melissa Mark-Viverito</h4><br/>
-    <h4>District&nbsp;&nbsp;<span id="coundist" style="float:right">8</h4></h4><br/>
-        <h4>Supporter?</h4><h4 id="status">Not Yet</h4></h4><br/>
-        <h4>How many bags?</h4><h4 id="bags_number">3</h4></h4><br/>
--->
+
 </div>
-           <div class="img_container">
-    <img id="portrait" class="portrait" src="http://council.nyc.gov/d8/images/melissa%20mark-viverito.jpg"></img>
-                                                                                                          </div>
-    </div> 
-<iframe id="iframe" src="" width="100%" height="" frameborder="0" scrolling="no" allowtransparency="true" style="border-radius: 8px 8px 8px 8px;"></iframe>
+<div class="img_container">
+<img id="portrait" class="portrait" src="http://council.nyc.gov/d8/images/melissa%20mark-viverito.jpg"></img>
+</div>
+</div> 
+    
+    <div id="counter"><a><span id="count"></span>Instagrams of plastic bag litter</a>
     </div>
-        </div>
     
-        <!-- Tab 2 Contents -->
-        <div id="tab_2_contents" class="tab_contents">
-          This is where all the shiz goes: <br/>
-          bag stats <br/>
-          social media links <br/>
-          data credit <br/>
-        </div>        </div>
+<iframe id="iframe" src="" width="100%" height="0px" frameborder="0" scrolling="no" allowtransparency="true" style="border-radius: 8px 8px 8px 8px;"></iframe>
     
-       
+</div>
+</div>
+
+    
+<!-- Tab 2 Contents -->
+<div id="tab_2_contents" class="tab_contents">
+This is where all the shiz goes: <br/>
+bag stats <br/>
+social media links <br/>
+data credit <br/>
+</div>        </div>
+
+
     
       </div>
     </div>
@@ -124,13 +121,9 @@ myPluginLoadEvent(function(){
         
 		var map = L.map('map').setView([40.711346, -73.947826], 12);
 
-//tile sources:
-//https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png        
-//satellite: http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
+var circle_coundist = "";
+var polygon_coundist = "";
 
-        //positron: L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{
- // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-//});
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 			maxZoom: 18,
             minZoom:11,
@@ -138,6 +131,19 @@ myPluginLoadEvent(function(){
 //			id: 'examples.map-20v6611k'
 		}).addTo(map);
 
+//update counter
+//display count of total instagrams taken so far
+$.getJSON("http://jossphilippe.cartodb.com/api/v2/sql?q=SELECT%20count(*)%20FROM%20instagram_media", function (data) {
+// Get the 'items' from the first group.
+
+var items = data.rows[0];
+
+// Find the last index and the last item.
+var count = items.count;
+//  alert(count);
+$("#count").prepend(count);
+console.log("Text: " + items.count);
+});
 
         
 // get string for bill status
@@ -157,7 +163,7 @@ return '#1f77b2';
 };
     
     //get instagram iframe embed url
-    function getUrl(d){
+function getUrl(d){
 return d;
 };
 
@@ -186,7 +192,14 @@ fillOpacity: 0.9
 
 
 function highlightPolygons(e) {
+    
 var layer = e.target;
+        
+    polygon_coundist = layer.feature.properties.coundist;
+    console.log("test var polygon_coundist" + polygon_coundist)
+    
+    console.log("test var circle_coundist" + circle_coundist);
+
     
 layer.setStyle({
 weight: 5,
@@ -194,8 +207,7 @@ color: '#fff',
 dashArray: 0,
 fillOpacity: 0
 });
-//info.update(layer.feature.properties);
-//console.log("done");
+
 $("#portrait").attr('src', layer.feature.properties.image).hide().fadeIn(400);
 $("#coundist").empty().append(layer.feature.properties.coundist).hide().fadeIn(400);
 $("#name").empty().append(layer.feature.properties.name).hide().fadeIn(400);
@@ -204,8 +216,16 @@ $("#bags_number").empty().append(layer.feature.properties.points_count).hide().f
 }
     
 function highlightCircles(e) {
+//    console.log(districtsLayer);
 var layer = e.target;
-console.log(e.latlng);
+    
+//console.log(e.latlng);
+    circle_coundist = layer.feature.properties.coundist;
+    
+//setStyle on relevant district geometry
+    
+//console.log(circle_coundist);
+    
 layer.setStyle({
 
 radius: 10,
@@ -216,13 +236,11 @@ opacity: 1,
 fillOpacity: 0.8
 });
 if (!L.Browser.ie && !L.Browser.opera) {
-layer.bringToFront();
+//layer.bringToFront();
 }
-
 $('#iframe').show().attr('src', layer.feature.properties.url + "embed/").attr('height', 375).fadeIn(400);
 }
       
-        ///
         
         
 
@@ -230,16 +248,31 @@ $('#iframe').show().attr('src', layer.feature.properties.url + "embed/").attr('h
 	
 
 //RESET STYLE FUNCTIONS
+    
 //DISTRICTS
 function resetPolygonHighlight(e) {
-districtsLayer.resetStyle(e.target);
+    
+    //this is problematic
+    //polygons remain highlighted until new circle_coundist is logged
+    //this is because the the function is called on the layer
+    //For Example: 
+    //hover over circle in polygon, exit polygon
+    //hover style for polygon exited remains because the conditional clause is false
+    
+//if (circle_coundist != polygon_coundist){
+//districtsLayer.resetStyle(e.target);
+//};
+    console.log(e.target);
+    
+    districtsLayer.resetStyle(e.target);
 
-//            instagramLayer.resetStyle(e.target);
 }
+    
 //INSTAGRAM
 function resetCircleHighlight(e) {
 //			districtsLayer.resetStyle(e.target);
 instagramLayer.resetStyle(e.target);
+    
 //                   $('#iframe').hide();
 
 }
@@ -251,7 +284,8 @@ map.fitBounds(e.target.getBounds()).setZoom(15);
     
 }
 
-	//CALL INTERACTIVE STYLE FUNCTIONS FOR EACH LAYER
+//CALL INTERACTIVE STYLE FUNCTIONS FOR EACH LAYER
+    
 //DISTRICTS
 function onEachPolygon(feature, layer) {
 layer.on({
@@ -272,9 +306,9 @@ layer.on({
 
 //CARTODB GEOJSON DATA 
 var districtsURL = "https://jossphilippe.cartodb.com/api/v2/sql?format=geojson&q=SELECT cartodb_id, the_geom, coundist, name, status, contact_email, points_count, sponsor, image FROM nycc_merge_final";
-var instagramURL = "https://jossphilippe.cartodb.com/api/v2/sql?format=geojson&q=SELECT cartodb_id, the_geom, url FROM instagram_media";
+var instagramURL = "https://jossphilippe.cartodb.com/api/v2/sql?format=geojson&q=SELECT cartodb_id, the_geom, url, coundist FROM instagram_media";
 
-//DISTRICTS
+//DISTRICTS 
 $.getJSON(districtsURL, function(data) {
 districtsLayer = L.geoJson(data, {
 style: polygonStyle,
@@ -305,7 +339,7 @@ onEachFeature: onEachCircle
 });
 
         
-		map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+		map.attributionControl.addAttribution('NYCC Districts + Instagram-Python API data');
 
         //NAVIGATION SCRIPT
  // Set up a listener so that when anything with a class of 'tab' 
