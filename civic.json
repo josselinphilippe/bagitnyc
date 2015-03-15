@@ -1,0 +1,20 @@
+{
+        "status": "Beta",
+        "thumbnailUrl": "http://jossphilippe.webfactional.com/bagitnyc_2015/images/bagitnyc_screenshot.png",
+        "bornAt": "New School",
+        "geography": "NYC",
+        "politicalEntity":"NYC City Council",
+        "type":["Web App", "Policy Document"],
+        "needs": [
+                {"need": "Campaign Ideas"},
+                {"need": "Node Dev"},
+                {"need": "Nodemailer Dev"}
+        ],
+        "categories": [
+                {"category": "Environment"},
+                {"category": "Lobbying Tool"},
+                {"category": "Crowdsourced Data"},
+                {"category": "Open Source Mapping"},
+                {"category": "Instagram"},
+        ]
+}

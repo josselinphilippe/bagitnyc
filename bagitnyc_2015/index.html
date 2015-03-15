@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>original---new</title>
+<meta charset="utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>-->
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<!--	<link rel="stylesheet" href="../dist/leaflet.css" />-->
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" href="css/stylesheet.css"/>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:600' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/l.geosearch.mod.css" />
+
+<style>
+
+</style>
+
+</head>
+<body>
+<div id="map"></div>
+
+
+
+<div id="legend">
+<ul class="legend_list">
+    <li ><a class="counter"><span id="count"></span> Instagrams of plastic bag litter</a></li>
+
+<li ><a class="districts_for"><span id="districts_for_count"></span> Council representatives in favor</a></li>
+
+<li ><a class="districts_against"><span id="districts_against_count"></span> Council representatives not yet in favor</a>
+</li>
+</ul>
+</div>
+
+<div id="logo"><h1 class="title"><b>#BAGITNYC</b></h1></div>
+<div id="tabs_container">
+
+<!-- These are the tabs -->
+<ul class="tabs">
+<li class="active">
+<a href="#" rel="#tab_1_contents" class="tab">Data</a>
+</li>
+<li><a href="#" rel="#tab_2_contents" class="tab">About</a></li>
+<!--        <li><a href="#" rel="#tab_3_contents" class="tab">Tab 3</a></li>-->
+</ul>
+
+<!-- This is used so the contents don't appear to the 
+right of the tabs -->
+<div class="clear"></div>
+
+<!-- This is a div that hold all the tabbed contents -->
+<div class="tab_contents_container">
+
+<!-- Tab 1 Contents -->
+<div id="tab_1_contents" class="tab_contents tab_contents_active">
+
+
+<!-- This is everything that comes under the nav tabs -->
+
+<div id="infowindow" class="infowindow">
+<div class="districts">
+<div class="districts_info">
+
+<!-- Let's make a list, uniform styling means more rest-->
+<!-- I'd like to bring the interactive data to align against the council member portrait (possibly add blinking style on underline?)-->
+
+<div class="name" id="name"><a>Melissa Mark-Viverito</a></div>
+<!--<li class="blank"><a> &nbsp; </a></li>-->
+<ul id="hover_data" class="hover_data">
+<li class="coundist item"><a>District<span id="coundist" style="float:right">8</span></a></li>
+<li class="bagsNumber item"><a>Number of bags<span  id="bagsNumber" style="float:right">3</span></a></li>
+
+<li class="status item"><a>Supporter<span id="status" style="float:right">Not Yet</span></a></li>
+
+</ul>
+
+</div>
+<div class="img_container">
+<img id="portrait" class="portrait" src="http://council.nyc.gov/d8/images/melissa%20mark-viverito.jpg"></img>
+</div>
+</div> 
+
+
+<iframe id="iframe" src="" width="100%" height="0px" frameborder="0" scrolling="no" allowtransparency="true" style="border-radius: 8px 8px 8px 8px;"></iframe>
+
+</div>
+</div>
+
+
+<!-- Tab 2 Contents -->
+<div id="tab_2_contents" class="tab_contents">
+<!--
+<p class="about">
+<strong>Mapping Campaign</strong>
+Despite the overwhelming data supporting the need to reduce the use of single-use carry-out bags, New York City has been slow to enact any long-term solution to this end. The #BagItNYC mapping campaign aims to crowdscource photographic and geospatial data related to plastic bag litter. To do this, we are using Instagram as an accessible data collection tool.  <br/>
+    
+New Yorkers can now show their support for a f
+    
+bag stats <br/>
+social media links <br/>
+data credit <br/>
+</p>
+-->
+           <a class="text"> <br>New York City has a plastic bag problem. We consume 5.2 billion of them every year and only 5% of those are recycled. Bummer!<br><br>
+
+We're working on a fix. New York City Council Members will soon vote on a bill to place a 10 cent fee on carryout bags. Want to show your support? We're using Instagram to support this bill and you should too. It's rather easy:<br><br>
+    </a>
+    <ul class="instructions">
+    <li>1 - Post a photo of plastic bag litter to Instagram. </li>
+    <li>2 - Hashtag #bagitnyc with location enabled.</li>
+    <li>3 - Use the map to monitor support for the bill in your district.</li>
+        <li>4 - Tell all your pals about it.</li>
+    </ul>
+    <br><br>
+</div>
+
+
+
+</div>
+</div>
+<script src="js/l.control.geosearch.mod.js">  </script>
+<script src="js/l.geosearch.provider.google.js">  </script>
+<script type="text/javascript">
+
+//great ressource for fixing onload issues with leaflet plugins
+//https://thechamplord.wordpress.com/2014/07/04/using-javascript-window-onload-event-properly/
+
+function myPluginLoadEvent(func) {
+// assign any pre-defined functions on 'window.onload' to a variable
+var oldOnLoad = window.onload;
+// if there is not any function hooked to it
+if (typeof window.onload != 'function') {
+// you can hook your function with it
+window.onload = func
+} else {     // someone already hooked a function
+window.onload = function () {
+// call the function hooked already
+oldOnLoad();
+// call your awesome function
+func();
+}
+}
+}
+
+// pass the function you want to call at 'window.onload', in the function defined above
+myPluginLoadEvent(function(){
+
+//    $("#legend").hide();
+
+var map = L.map('map').setView([40.711346, -73.947826], 12);
+
+var circle_coundist = "";
+var polygon_coundist = "";
+
+L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+maxZoom: 18,
+minZoom:11,
+attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+//			id: 'examples.map-20v6611k'
+}).addTo(map);
+
+//update counter
+//display count of total instagrams taken so far
+$.getJSON("http://jossphilippe.cartodb.com/api/v2/sql?q=SELECT%20count(*)%20FROM%20instagram_media", function (data) {
+// Get the 'items' from the first group.
+
+var items = data.rows[0];
+
+// Find the last index and the last item.
+var count = items.count;
+//  alert(count);
+$("#count").prepend(count);
+console.log("Text: " + items.count);
+});
+
+$.getJSON("http://jossphilippe.cartodb.com/api/v2/sql?q=SELECT%20count(*)%20FROM%20nycc_merge_final%20WHERE%20status=1", function (data) {
+// Get the 'items' from the first group.
+
+var items = data.rows[0];
+
+// Find the last index and the last item.
+var count = items.count;
+//  alert(count);
+$("#districts_for_count").prepend(count);
+console.log("Text: " + items.count);
+});
+
+$.getJSON("http://jossphilippe.cartodb.com/api/v2/sql?q=SELECT%20count(*)%20FROM%20nycc_merge_final%20WHERE%20status=0", function (data) {
+// Get the 'items' from the first group.
+
+var items = data.rows[0];
+
+// Find the last index and the last item.
+var count = items.count;
+//  alert(count);
+$("#districts_against_count").prepend(count);
+console.log("Text: " + items.count);
+});
+
+
+// get string for bill status
+function getStatus(d) {
+if (d < 1 ){
+return 'Not Yet'}
+else if (d > 0){ return 'Yes'  }
+};
+
+// get color for bill status
+function getColor(d){
+if (d < 1 ){
+return '#a6cee3';
+}else if (d > 0 ){
+return '#1f77b2';
+}
+};
+
+function getStatusColor(d){
+if (d < 1 ){
+return 'linear-gradient(to right, rgba(166,206,227,0.1), rgba(166,206,227,0.6))';
+}else if (d > 0 ){
+return 'linear-gradient(to right, rgba(31,119,178,0.1), rgba(31,119,178,0.6))';
+}
+};
+
+//get instagram iframe embed url
+function getUrl(d){
+return d;
+};
+
+function polygonStyle(feature) {
+return {
+weight: 2,
+opacity: 1,
+color: 'white',
+dashArray: 0,
+fillOpacity: 0.5,
+fillColor: getColor(feature.properties.status)
+};
+}
+
+function circleStyle(feature) {
+return {
+radius: 5,
+fillColor: "#f84f40",
+color: "#fff",
+weight: 1.5,
+opacity: 1,
+fillOpacity: 0.9
+};
+//    console.log(feature.properties.url);
+}
+
+
+function highlightPolygons(e) {
+
+    console.log(e.target);
+var layer = e.target;
+
+polygon_coundist = layer.feature.properties.coundist;
+//console.log("test var polygon_coundist" + polygon_coundist)
+//
+//console.log("test var circle_coundist" + circle_coundist);
+
+
+layer.setStyle({
+weight: 5,
+color: '#fff',
+dashArray: 0,
+fillOpacity: 0
+});
+    
+statusColor = getStatusColor(layer.feature.properties.status);
+    console.log(statusColor);
+    $(".status").css("background", statusColor);
+$("#portrait").attr('src', layer.feature.properties.image).hide().fadeIn(400);
+$("#coundist").empty().append(layer.feature.properties.coundist).hide().fadeIn(400);
+$("#name").empty().append(layer.feature.properties.name).hide().fadeIn(400);
+$("#status").empty().append(layer.feature.properties.sponsor).hide().fadeIn(400);
+$("#bagsNumber").empty().append(layer.feature.properties.points_count).hide().fadeIn(400);
+}
+
+    
+    
+function highlightCircles(e, feature) {
+//    console.log(districtsLayer);
+var layer = e.target;
+    
+//console.log(e.latlng);
+circle_coundist = layer.feature.properties.coundist;
+
+//setStyle on relevant district geometry
+//console.log(circle_coundist);
+
+layer.setStyle({
+
+radius: 10,
+fillColor: "#FFFE4C",
+color: "#fff",
+weight: 2,
+opacity: 1,
+fillOpacity: 0.8
+});
+if (!L.Browser.ie && !L.Browser.opera) {
+//layer.bringToFront();
+}
+$('#iframe').show().attr('src', layer.feature.properties.url + "embed/").attr('height', 375).fadeIn(400);
+    
+//    instagramLayer.highlightPolygons(e.target);
+}
+
+
+
+
+
+
+
+//RESET STYLE FUNCTIONS
+
+//DISTRICTS
+function resetPolygonHighlight(e) {
+
+//this is problematic
+//polygons remain highlighted until new circle_coundist is logged
+//this is because the the function is called on the layer
+//For Example: 
+//hover over circle in polygon, exit polygon
+//hover style for polygon exited remains because the conditional clause is false
+
+//if (circle_coundist != polygon_coundist){
+//districtsLayer.resetStyle(e.target);
+//};
+//console.log(e.latlng);
+
+    
+districtsLayer.resetStyle(e.target);
+}
+
+//INSTAGRAM
+function resetCircleHighlight(e) {
+//			districtsLayer.resetStyle(e.target);
+instagramLayer.resetStyle(e.target);
+    
+    console.log(e.latlng);
+
+//                   $('#iframe').hide();
+
+}
+
+//ZOOM TO DISTRICT WHEN CLICKED
+function zoomToFeature(e) {
+map.fitBounds(e.target.getBounds()).setZoom(15);
+//    map.setZoom(18);
+
+}
+
+//CALL INTERACTIVE STYLE FUNCTIONS FOR EACH LAYER
+
+//DISTRICTS
+function onEachPolygon(feature, layer) {
+layer.on({
+mouseover: highlightPolygons, 
+mouseout: resetPolygonHighlight,
+click: zoomToFeature
+});
+}
+
+//INSTAGRAM      
+function onEachCircle(feature, layer) {
+layer.on({
+mouseover: highlightCircles,
+mouseout: resetCircleHighlight,
+click: zoomToFeature
+});
+}
+
+//CARTODB GEOJSON DATA 
+var districtsURL = "https://jossphilippe.cartodb.com/api/v2/sql?format=geojson&q=SELECT cartodb_id, the_geom, coundist, name, status, contact_email, points_count, sponsor, image FROM nycc_merge_final";
+var instagramURL = "https://jossphilippe.cartodb.com/api/v2/sql?format=geojson&q=SELECT cartodb_id, the_geom, url, coundist FROM instagram_media";
+var labelsURL = "https://jossphilippe.cartodb.com/api/v2/sql?format=geojson&q=SELECT d1.cartodb_id, d1.coundist, ST_PointOnSurface(d1.the_geom) the_geom FROM nycc_merge_final d1";
+
+
+//DISTRICTS 
+$.getJSON(districtsURL, function(data) {
+districtsLayer = L.geoJson(data, {
+style: polygonStyle,
+onEachFeature: onEachPolygon
+}).addTo(map);
+//    bindLabel(data.coundist).
+//    console.log(data.object.feature.properties);
+//    console.log(data.feature.properties.coundist);
+//    console.log(data.features.properties.coundist);
+//         var label = new L.Label();
+//        label.setContent("MultiPolygon static label");
+//        label.setLatLng(districtsLayer.getBounds().getCenter());
+//        map.showLabel(label);
+
+})
+.done(function() {
+
+//INSTAGRAM
+$.getJSON(instagramURL, function(data) {
+instagramLayer = L.geoJson(data, {
+pointToLayer: function (feature, latlng){
+return L.circleMarker(latlng)
+},
+style: circleStyle,
+onEachFeature: onEachCircle
+
+}).addTo(map);
+});
+}).done(function() {
+
+
+
+
+
+//labels
+$.getJSON(labelsURL, function(data) {
+labelsLayer = L.geoJson(data, {
+pointToLayer: function (feature, latlng){
+return L.marker(latlng, {
+icon: L.divIcon({
+className: 'label',
+html: feature.properties.coundist,
+iconSize: null,
+//        iconAnchor:   [10, 0],
+iconAnchor: null,
+popupAnchor: [latlng]
+
+})
+});
+}}).addTo(map);
+
+});
+});
+
+
+
+map.attributionControl.addAttribution('NYCC Districts + Instagram-Python API data');
+
+//NAVIGATION SCRIPT
+// Set up a listener so that when anything with a class of 'tab' 
+// is clicked, this function is run.
+$('.tab').click(function () {
+
+// Remove the 'active' class from the active tab.
+$('#tabs_container > .tabs > li.active')
+.removeClass('active');
+
+// Add the 'active' class to the clicked tab.
+$(this).parent().addClass('active');
+
+// Remove the 'tab_contents_active' class from the visible tab contents.
+$('#tabs_container > .tab_contents_container > div.tab_contents_active')
+.removeClass('tab_contents_active');
+
+// Add the 'tab_contents_active' class to the associated tab contents.
+$(this.rel).addClass('tab_contents_active');
+
+});
+
+
+
+map.on("geosearch_showLocation", function(data) {
+
+//console.log(data.Location.Y, data.Location.X);
+var lat = (data.Location.Y);
+var lng = (data.Location.X);
+
+
+console.log("done" + lat);    
+//        map.fireEvent('click', {
+//      latlng: [lat,lng],
+//      layerPoint: map.latLngToLayerPoint([lat,lng]),
+//      containerPoint: map.latLngToContainerPoint([lat,lng])
+//    });
+//       map.setView([lat, lng], 15);
+});
+//SMEIJER PLUGIN GIThttps://github.com/smeijer/L.GeoSearch
+//GOOGLE GEOCODING API https://developers.google.com/maps/documentation/geocoding/
+new L.Control.GeoSearch({
+provider: new L.GeoSearch.Provider.Google({
+
+
+
+
+
+//               componentRestrictions: {"administrativeArea":"NJ", "locality":"Newark"}
+componentRestrictions: {"locality":"New York City"}
+
+}),
+position: 'topcenter'
+}).addTo(map);
+
+// your awesome code to run on window.onload
+console.log('window loaded');
+});
+
+</script>
+</body>
+</html>
