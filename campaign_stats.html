@@ -1,203 +1,109 @@
-<head>
 
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
 <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
-<!--<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>-->
+<script src="http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js"></script>
+
 
 <style>
 
-
-ul { 
-padding:0; 
-margin:0
+ul.columns{ 
+    width: 50%;
+    float: left;
+    margin: 0 0 3em 0;
+    padding: 0;
+    list-style: none;
+    border: 1px 1px 1px 1px;
+/*    background-color: #f2f2f2;*/
+/*
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+*/
 }
 
-a {
-text-decoration: none;
-white-space: nowrap;
-color: white;
-background-color: #fff;
-}
-#menu>ul>li 
-{
-display:block; 
-float:left;
-}
-li ul li 
-{
-float:none;
-}
-li ul {
-display: none;/*This is the default state.*/
-/*z-index: 9999;*/
-position: absolute;
-width: 400px;
-max-height:400px;/*The important part*/
-overflow-y:auto;/*Also...*/
-overflow-x:hidden;/*And the end of the important part*/
-margin-top: 1px;
-padding-left:5px; /*Removing the large whitespace to the left of list*/
+ul.columns>li {
+    float: left;
+    padding:10px 15px 10px 15px;
 }
 
-li:hover ul {
-display:block;
+ul.dynamic-list{ 
+    padding: 0;
+    list-style: none;
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
 }
-
-#menu {
-position: absolute;}
-
-#menu a {
-color:#CCC; 
-padding:10px 15px 10px 15px;
-line-height: 40px;
-}
-#menu span{
-color:#CCC; 
-padding:10px 0 10px 0;
-/*line-height: 40px;*/
-}
-#menu a:hover{
-color:#61b4cf;
-cursor: pointer;
-}
-
-#menu li{
-/*    line-height: 40px;*/
-background-color:#FFF; 
-border:solid 1px #CCC;  
-margin-left:-1px;
-
-}
-
-
-#menu li:hover {
-/*background-color:#61b4cf;*/
-cursor: pointer;        
-}
-
-#menu li.options-list{
-border-color: #ccc;
-border-style: solid;
-border-width: 1px 0 1px 0;
-
-}
-
-#menu span.numbers{
+    span.numbers{
 float: right;
 }
 
 
-
+    
 #map{
-height:100%;
 width:50%;
-float:right;}
-
+height:800px;
+float: right;
+}
 div.cartodb-tooltip-content{
 display:none;
 }
-
-
-
-
-#gallery{
-width: 45%;
-/*height: 200px;*/
-border: 1px solid black;
-position: absolute;
-bottom: 50px;
-overflow-x: auto;
-display: inline-block;
-text-decoration: none;
-white-space:nowrap;
-    padding: 2px 2px 2px 2px;
-
-}
-
-#gallery ul.stage {
-width: 100%;
-list-style: none;
-margin: 0px;
-padding: 0px;
-display:inline;
-
-}
-
-#gallery li.image-wrapper {
-display: inline; 
-cursor: pointer;
-padding: 2px 2px 2px 2px;
-}
-
-#gallery img {
-width: 30%;
-    height:200px;
-}
-
+    
+    
 </style>
 
-</head>
+<body> 
 
 
-<body>
+
+
+
 <div id="map">
 </div>
 
-<div id="menu" class="items">
-<ul class="options" >
 
-<li><a href='#'>Events</a>
-<ul id="events-list" class="events-list">
+<div id="menu">
+    
+<ul class="columns">
+<li>
+<a href='#'>Events</a>
+<ul id="events-list" class="dynamic-list">
 
-<!--Hardcode events list, set sql in layer action -->
-<li id="all" data="all" class="options-list"><a>All</a><span class="numbers">' + number + '</span></li>
-<li id="bedstuy" class="options-list"><a>Bed-Stuy</a><span class="numbers">' + number + '</span></li>
-<li id="newschool" class="options-list"><a>New School</a><span class="numbers">' + number + '</span></li>
-<li class="options-list"><a>Camp/Interactive</a><span class="numbers">' + number + '</span></li>
-
-</ul>
-</li>   
-
-<li class="participants"><a href='#'>Participants</a>
-<ul id="participants-list" class="participants-list">
 </ul>
 </li>
 
-
-
-
-<li class="districts"><a href='#'>Districts</a>
-<ul id="districts-list" class="districst-list">
+<li class="participants">
+<a href='#'>Participants</a>
+<ul id="participants-list" class="dynamic-list">
+</ul>
 </li>
+
+<li class="districts">
+<a href='#'>Districts</a>
+<ul id="districts-list" class="dynamic-list">
 </ul>
-</div>
-
-
-<div id="gallery">
-<ul id="img-list" class="stage">
+</li>
+    
 </ul>
+
 </div>
-<script src="http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js"></script>
-
-
-
-
-
 
 <script>
-window.onload = function() {
-//set up a map
-var map = L.map('map').setView([40.685680, -73.935625], 12);
 
-basemap = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-minZoom: 10,
-maxZoom: 20,
-attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-id: 'examples.map-20v6611k'
-});
+var map = L.map('map').setView([40.711000, -73.947826], 14);
 
-basemap.addTo(map, 0);
+var circle_coundist = "";
+var polygon_coundist = "";
+
+L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+maxZoom: 18,
+minZoom:11,
+attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+//			id: 'examples.map-20v6611k'
+}).addTo(map);
 
 //global variables for cartodb SQL 
 var sql = new cartodb.SQL({ user: 'jossphilippe' });
@@ -209,7 +115,7 @@ var districts;
 
 //global variables for dynamic list items
 var users;
-var numbers;
+var count;
 
 //create layer and assign variables to sublayers
 
@@ -223,323 +129,125 @@ console.log(instagrams);
 
 }).addTo(map);
 
+
+//update list of events according to affiliation field
+//get array of participating users and populate dropdown list items
+$.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT affiliation, count(*) number FROM instagram_media WHERE affiliation IS NOT NULL GROUP BY affiliation ORDER BY number DESC", function(data){
+
+//    $.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT * FROM instagram_media", function(data){
+var html = '';
+
+//console.log(event);
+for(var i = 0; i < data.rows.length; i++) {
+
+var items = data.rows[i];
+
+count = items.number;
+affiliation = items.affiliation;
+
+
+//update html var with list-item data and anchored text
+
+html += '<li data='+ affiliation +' class="options-list"><a>' + affiliation + '&nbsp;</a><span class="numbers">' + count + '</span></li>';
+document.getElementById('events-list').innerHTML = html;
+
+}
+})
+
+
 //update list of participants according to click events in other <UL>
-function updateParticipants(){
+var updateParticipants = function(event){
+
+console.log("running");
+//encode paraemter to be used in url SQL statements and getJSON method
+event = encodeURIComponent(event);
+
+//update map layers
+instagrams.setSQL("SELECT * FROM instagram_media WHERE affiliation='"+event+"'");
+
+districts.setSQL("SELECT DISTINCT(d1.*) FROM nycc_merge_final d1, instagram_media d2 WHERE ST_Contains(d1.the_geom,d2.the_geom) AND d2.affiliation='"+event+"'");  
+
+//pan and zoom map to show both extent of both layers
+sql.getBounds("SELECT * FROM instagram_media WHERE affiliation='"+event+"'").done(function(bounds) {
+map.fitBounds(bounds);
+});
+
+
 //get array of participating users and populate dropdown list items
-$.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT media_credit, count(*) number FROM instagram_media GROUP BY media_credit ORDER BY number DESC", function(data){
+$.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT media_credit, count(*) number FROM instagram_media WHERE affiliation='"+event+"'GROUP BY media_credit ORDER BY number DESC", function(data){
+
+//    $.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT * FROM instagram_media", function(data){
 var html = '';
 
+//console.log(event);
 for(var i = 0; i < data.rows.length; i++) {
 
 var items = data.rows[i];
-users = data.rows[i].media_credit;
-number = items.number;
 
-//console.log(number);
+count = items.number;
+users = items.media_credit;
+
+//console.log(users);
+users = [];
+users.push(data.rows[i].media_credit);
+//    console.log(users);
+
+hist = users.reduce( function (prev, item) { 
+if ( item in prev ) prev[item] ++; 
+else prev[item] = 1; 
+return prev; 
+}, {} );
+console.log(hist);
+
+
+
 
 //update html var with list-item data and anchored text
-//assign var to li data value, in order to better listen for click events
 
-html += '<li data='+ users +' class="options-list"><a>' + users + '</a><span class="numbers">' + number + '</span></li>';
+html += '<li data='+ users +' class="options-list"><a>' + users + '&nbsp;</a><span class="numbers">' + count + '</span></li>';
 document.getElementById('participants-list').innerHTML = html;
+
 }
 })
 };
 
-updateParticipants();
+    
+    //update list of participants according to click events in other <UL>
+var updateDistricts = function(event){
+    
+    event = encodeURIComponent(event);
 
-
-//update list of districts according to click events in other <ul>
-function updateDistricts(){
-$.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT * FROM nycc_merge_final ORDER BY points_count DESC", function(data){
+    $.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT DISTINCT(d1.*) FROM nycc_merge_final d1, instagram_media d2 WHERE ST_Contains(d1.the_geom,d2.the_geom) AND d2.affiliation='"+event+"'", function(data){
 var html = '';
 for(var i = 0; i < data.rows.length; i++) {
 
 var rep = data.rows[i].name;
 var dist = data.rows[i].coundist;
-var points = data.rows[i].points_count;
+//var points = data.rows[i].points_count;
 
 //update html var with list-item data and anchored text
 //assign var to li data value, in order to better listen for click events
-html += '<li data='+ dist +' class="options-list"><a>District ' + dist + '</a><span class="numbers">' + points + '</span></li>';
+html += '<li data='+ dist +' class="options-list"><a>District ' + dist + '&nbsp;</a><span class="numbers"></span></li>';
 
 document.getElementById('districts-list').innerHTML = html;
+
 }
 })
 };
-//update
-updateDistricts();
 
-
-//set up layer actions for all dropdown options
-//In order//
-
-// Events: 
-// Start with all campaign data. This should also include the count for all instgrams
-
-
-
-$("#all").on('click', function(){
-instagrams.setSQL("SELECT * FROM instagram_media");
-districts.setSQL("SELECT * FROM nycc_merge_final");
-updateParticipants();
-    updateDistricts();
-    $.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT COUNT(*) FROM instagram_media", function(data){
-
-
-var items= data.rows[0];
-count = items.count;
-//console.log(number);
-
-$("#all .numbers").empty().append(count);
-
+$("#events-list").on('click', 'li', function(){
+target = $(this).attr('data');
+updateParticipants(target);
+updateDistricts(target);
 });
 
-});
-
-$("#bedstuy").on('click', function(){
-instagrams.setSQL("SELECT * FROM instagram_media WHERE created_time >= '2014-08-15' AND created_time <= '2014-08-17' AND coundist= '36'");
-districts.setSQL("SELECT * FROM nycc_merge_final where coundist= '36'");  
-sql.getBounds("SELECT * FROM nycc_merge_final where coundist= '36'").done(function(bounds) {
-map.fitBounds(bounds);
-});
-
-//update particpants list
-function updateBedstuyParticipants(){
-//get array of participating users and populate dropdown list items
-$.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT media_credit, count(*) number FROM instagram_media WHERE created_time >= '2014-08-15' AND created_time <= '2014-08-17' AND coundist= '36'  GROUP BY media_credit ORDER BY number DESC", function(data){
-var total = 0;
+//$("#new_school").on('click', 'button', function(){
+//target = $(this).attr('value');
+//updateParticipants(target);
+////                console.log("you clicked");
+//});
 
 
-var html = '';
-for(var i = 0; i < data.rows.length; i++) {
-
-var items = data.rows[i];
-users = items.media_credit;
-number = items.number;
-//console.log(number);
-
-
-total += parseFloat(items.number);
-
-//console.log(total);
-
-//update html var with list-item data and anchored text
-//assign var to li data value, in order to better listen for click events
-
-html += '<li data='+ users +' class="options-list"><a>' + users + '</a><span class="numbers">' + number + '</span></li>';
-document.getElementById('participants-list').innerHTML = html;
-
-
-}
-
-//update count for Bedstuy Event
-//note: this needs to be appended on window load
-$("#bedstuy .numbers").empty().append(total);
-
-//get array of participating districts and populate dropdown list items
-$.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT * FROM nycc_merge_final WHERE coundist= '36'", function(data){
-
-console.log(total);
-var html = '';
-for(var i = 0; i < data.rows.length; i++) {
-
-var rep = data.rows[i].name;
-var dist = data.rows[i].coundist;
-var points = data.rows[i].points_count;
-
-//update html var with list-item data and anchored text
-//assign var to li data value, in order to better listen for click events
-html += '<li data='+ dist +' class="options-list"><a>District ' + dist + '</a><span class="numbers">' + total + '</span></li>';
-
-document.getElementById('districts-list').innerHTML = html;
-
-
-//total += parseFloat(items.number);
-
-}
-});         
-});
-};   
-//update 
-updateBedstuyParticipants();
-});
-
-    
-    $("#newschool").on('click', function(){
-instagrams.setSQL("SELECT * FROM instagram_media WHERE affiliation='new_school'");
-districts.setSQL("SELECT DISTINCT(d1.*) FROM nycc_merge_final d1, instagram_media d2 WHERE ST_Contains(d1.the_geom,d2.the_geom) AND d2.affiliation='new_school'");  
-sql.getBounds("SELECT * FROM instagram_media where affiliation= 'new_school'").done(function(bounds) {
-map.fitBounds(bounds);
-});
-
-    
-    //update particpants list
-function updateNewSchoolParticipants(){
-//get array of participating users and populate dropdown list items
-$.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT media_credit, count(*) number FROM instagram_media WHERE affiliation='new_school' GROUP BY media_credit ORDER BY number DESC", function(data){
-var total = 0;
-
-
-var html = '';
-for(var i = 0; i < data.rows.length; i++) {
-
-var items = data.rows[i];
-users = items.media_credit;
-number = items.number;
-//console.log(number);
-
-
-total += parseFloat(items.number);
-
-//console.log(total);
-
-//update html var with list-item data and anchored text
-//assign var to li data value, in order to better listen for click events
-
-html += '<li data='+ users +' class="options-list"><a>' + users + '</a><span class="numbers">' + number + '</span></li>';
-document.getElementById('participants-list').innerHTML = html;
-
-
-}
-
-//update count for Bedstuy Event
-//note: this needs to be appended on window load
-$("#newschool .numbers").empty().append(total);
-
-//get array of participating districts and populate dropdown list items
-$.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT DISTINCT(d1.*) FROM nycc_merge_final d1, instagram_media d2 WHERE ST_Contains(d1.the_geom,d2.the_geom) AND d2.media_credit='new_school'", function(data){
-
-    
-console.log(total);
-var html = '';
-for(var i = 0; i < data.rows.length; i++) {
-
-var rep = data.rows[i].name;
-var dist = data.rows[i].coundist;
-var points = data.rows[i].points_count;
-
-//update html var with list-item data and anchored text
-//assign var to li data value, in order to better listen for click events
-html += '<li data='+ dist +' class="options-list"><a>District ' + dist + '</a><span class="numbers">' + total + '</span></li>';
-
-document.getElementById('districts-list').innerHTML = html;
-
-
-//total += parseFloat(items.number);
-
-}
-});         
-});
-};   
-//update 
-updateNewSchoolParticipants();
-});
-
-
-
-
-
-
-////set up layer actions for participants list
-
-$("#participants-list").on('click', 'li', function(){        
-//        console.log($(this).attr('data'));
-var selectedParticipant= $(this).attr('data');
-//    console.log(selectedParticipant);
-//console.log(selectedParticipant);
-instagrams.setSQL("SELECT * FROM instagram_media WHERE media_credit = '"+selectedParticipant+"'");
-districts.setSQL("SELECT DISTINCT(d1.*) FROM nycc_merge_final d1, instagram_media d2 WHERE ST_Contains(d1.the_geom,d2.the_geom) AND d2.media_credit='"+selectedParticipant+"'");    
-
-sql.getBounds("SELECT * FROM instagram_media WHERE media_credit = '"+selectedParticipant+"'").done(function(bounds) {
-map.fitBounds(bounds);
-});
-
-//create img gallery
-//update stats window
-$.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT link, cartodb_id, ST_Y(the_geom) lat, ST_X(the_geom) lng FROM instagram_media WHERE media_credit = '"+selectedParticipant+"'", function(data){
-
-
-var html = '';
-console.log(data);
-for(var i = 0; i < data.rows.length; i++) {
-var imglink = data.rows[i].link;
-var ID = data.rows[i].cartodb_id;
-var lat = data.rows[i].lat;
-var lng = data.rows[i].lng;
-var latlng = [lat, lng];
-//    var latlng = lat, lng; 
-//    
-//    var latlng = new L.LatLng(data.rows[i].lat, data.rows[i].lng);
-
-console.log(latlng);
-//update html var with list-item data and anchored text
-//assign var to li data value, in order to better listen for click events
-html += '<li data-loc='+ latlng +'" data-id='+ ID +' class="image-wrapper"><img src=' + imglink + ' /></li>';
-document.getElementById('img-list').innerHTML = html;
-}
-});
-});
-
-//set up layer actions for districts list
-$("#districts-list").on('click', 'li', function(){        
-//        console.log($(this).attr('data'));
-var selectedDistrict= $(this).attr('data');
-console.log(selectedDistrict);
-districts.setSQL("SELECT * FROM nycc_merge_final WHERE coundist = '"+selectedDistrict+"'");
-instagrams.setSQL("SELECT * FROM instagram_media WHERE coundist = '"+selectedDistrict+"'");
-
-sql.getBounds("SELECT * FROM nycc_merge_final WHERE coundist = '"+selectedDistrict+"'").done(function(bounds) {
-map.fitBounds(bounds);
-});
-    
-    //create img gallery
-//update stats window
-$.getJSON("https://jossphilippe.cartodb.com/api/v2/sql?q=SELECT link, cartodb_id, ST_Y(the_geom) lat, ST_X(the_geom) lng FROM instagram_media WHERE coundist = '"+selectedDistrict+"'", function(data){
-
-
-var html = '';
-console.log(data);
-for(var i = 0; i < data.rows.length; i++) {
-var imglink = data.rows[i].link;
-var ID = data.rows[i].cartodb_id;
-var lat = data.rows[i].lat;
-var lng = data.rows[i].lng;
-var latlng = [lat, lng];
-//    var latlng = lat, lng; 
-//    
-//    var latlng = new L.LatLng(data.rows[i].lat, data.rows[i].lng);
-
-console.log(latlng);
-//update html var with list-item data and anchored text
-//assign var to li data value, in order to better listen for click events
-html += '<li data-loc='+ latlng +'" data-id='+ ID +' class="image-wrapper"><img src=' + imglink + ' /></li>';
-document.getElementById('img-list').innerHTML = html;
-}
-});
-    
-    
-});
-
-//set up layer actions for img gallery using cartodb_id
-$("#img-list").on('click', 'li', function(){
-    $(this).children().css("background-color", "yellow");
-var selectedImg = $(this).attr('data-id');
-var selectedLoc = $(this).attr('data-loc');
-var loc = selectedLoc.split(',');
-map.setView(loc, 15, {animation: true});
-    
-    instagrams.setCartoCSS('#instagram_media {marker-fill-opacity: 0.9;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-placement: point;marker-type: ellipse; marker-width: 10;marker-fill: #FF6600; marker-allow-overlap: true;} #layer[cartodb_id = '+selectedImg+'] { marker-width: 30px; marker-fill:red; }');
-    
-    //hide districts layer for quicker rendering
-    districts.hide();
-
-
-
-//console.log([selectedLoc]);
-//map.setView([lat, lng], 17, false);
-//        instagrams.setCartoCSS("
-});
-}
+//updateParticipants("new_school");
 </script>
 </body>
