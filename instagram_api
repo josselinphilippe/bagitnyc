@@ -19,8 +19,7 @@ from cartodb import CartoDBAPIKey, CartoDBException
 from instagram.client import InstagramAPI
 
 # this is to allow updates/edits/inserts to CartoDB tables, where we'll be storing hashtag data
-MY_API_KEY = '700987471291d9c006a998b500f23de243f7388a'
-MY_CARTODB_DOMAIN = 'jossphilippe'
+
 
 #MY_API_KEY = 'insert here'
 #MY_CARTODB_DOMAIN = 'insert here''
