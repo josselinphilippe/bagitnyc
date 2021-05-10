@@ -1,3 +1,6 @@
+##### DEPRECATED
+
+
 #bagitnyc photo/map campaign to support plastic bag legislation
 
 ========
